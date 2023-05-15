@@ -1,4 +1,5 @@
 package oosp;
+import java.util.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ public class DB {
 			static  ResultSet rs           = null ;
 			
 			static String driver= "com.mysql.jdbc.Driver";
-			static String URL = "jdbc:mysql://localhost:3306/oosp" ;
+			static String URL = "jdbc:mysql://localhost:3306/oos" ;
 			
 			public static void loadConnect()  {
 				try {
@@ -22,7 +23,7 @@ public class DB {
 					if( con != null ) con.close();
 				} catch (SQLException ex ) {};  
 
-				// ����̹� �ε�
+				// driver connect
 				try {
 					Class.forName(driver);
 
@@ -31,13 +32,13 @@ public class DB {
 					e.printStackTrace();
 
 				}
-
+				//DB connect
 				try {
 
-					// �����ϱ�
+					// 
 					con  = DriverManager.getConnection(URL, "root", "onlyroot");
 
-					System.out.println("\n"+URL+"�� �����");
+					System.out.println("\n"+URL+"success ! ! !");
 
 
 				} catch( SQLException ex ) 
@@ -49,46 +50,30 @@ public class DB {
 
 			}
 			
-			//�� ȸ������
-			public static int insertCustomer(String id,String name,int age,String adress,String password) {
-				String sql="insert into customer values('"+id+"','"+name+"','"+age+"','"+adress+"','"+password+"','0','0')";
-				System.out.println("   >> SQL : " + sql + "\n");
+			public static ResultSet getProductDetailByPname(String product) {
 				
-				try {
-					Statement stmt =con.createStatement();
-					return stmt.executeUpdate(sql);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					return 0;
-				}
 				
+				return rs;
 			}
 			
-			//��й�ȣ ��ȣȭ
-			public static String encriptPassword(String password) {
-				if (password==null || password.equals(""))
-					return "1Ew$H6KhfKHJHG";			
-			
-				return "" + password.hashCode();  // Java�� hashCode() �޼ҵ带 �̿��� ���� ������ ��ȣȭ
-			}
-			
-			//ID�� ㅇㄹ
-			public static String getPasswordById(String id) {
-				String sql="select pw from customer where id='"+id+"'";
+			public static ArraryList<String> getIsbnBySearch(String productname) {
+				String sql="select * from product where productname like ?";
 				
 				try {
-					Statement stmt =con.createStatement();
-					ResultSet rs =stmt.executeQuery(sql);
+					PreparedStatement prstmt=con.prepareStatement(sql);
+					prstmt.setString(1,"%"+productname+"%");
+					ResultSet rs = prstmt.executeQuery();
+					ArrayList<String> product = new ArrayList<String>();
+					
 					if(rs.next()) {
-					String pw =rs.getString(1);
-					return pw;
+						product.add(rs.getString("getProductNameByIsbnproductnumber"));
+						
+					return product;
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					String error ="����!!";
-					return error;
+					e.printStackTrace();
 				}
-				return null;			
 			}
 			
 }

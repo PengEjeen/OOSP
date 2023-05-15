@@ -1,25 +1,25 @@
-<%@page import="bookstore.DB"%>
+<%@page import="oosp.DB"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>도서 상세정보</title>
+<title>상품 상세정보</title>
 <style>
-.bookimg{
+.productimg{
 	position : relative;
 	top : 10px;
 	left : 50px;
 }
-.bookinfo{
+.productinfo{
 	position : absolute;
 	top : 200px;
 	left : 400px;
 	font-size : 12px;
 	font-weight : bold;
 }
-.bookdetail{
+.productdetail{
 	position : absolute;
 	top : 300px;
 	left : 400px;
@@ -34,7 +34,7 @@ table,th,td {
 .ntd{
 	padding-left:30px;
 }
-.bookrating{
+.productrating{
 	position : absolute;
 	top : 70vh;
 	left : 60px;
@@ -55,6 +55,8 @@ table,th,td {
 </style>
 </head>
 <script type="text/javascript">
+
+//왜 여기에 buy 함수가 있나?
 function buy(){
 	var form = document.createElement('form');
 	<% 
@@ -86,17 +88,19 @@ function buy(){
 	form.submit();
 }
 </script>
-<body>
+<body> <!-- 검색창 부분 -->
 <%@include file="LogoAndSearchBar.jsp" %>
-<% String bname = request.getParameter("bname"); %>
+<% String productname = request.getParameter("bname"); %>
+
+<!-- productname SearchResult.jsp파일 getSearchByName함수에 있음. -->
 <% DB.loadConnect();
 String isbn = DB.getIsbnByBname(bname);
 float rating = DB.getRateByBname(bname)*20;
 %>
-<div class="bookimg">
+<div class="productimg">
 <img style="width : 20%; heigth : 20%;"> 
 </div>
-<div class="bookinfo">
+<div class="productinfo">
 <table border="1">
 <tr>
 <td>책 제목</td>
@@ -120,7 +124,7 @@ float rating = DB.getRateByBname(bname)*20;
 </tr>
 </table>
 </div>
-<div class="bookdetail">
+<div class="productdetail">
 <b>책 소개</b><br>
 <p style="font-size:12px;"><%= DB.getDetailByIsbn(isbn) %></p>
 </div>
@@ -128,7 +132,7 @@ float rating = DB.getRateByBname(bname)*20;
 <b>고객 리뷰</b><br>
 <%@include file="ReviewTable.jsp" %>
 </div>
-<div class="bookrating">
+<div class="productrating">
 평점
 <span class='star-rating'>
 <span style ="width:<%= rating %>%"></span>
