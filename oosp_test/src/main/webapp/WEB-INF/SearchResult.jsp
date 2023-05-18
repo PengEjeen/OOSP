@@ -1,5 +1,6 @@
 <%@page import="oosp.DB"%>
 <%@page import="java.sql.*"%>
+<%@page import="java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="SearchError.jsp"%>
 <!DOCTYPE html>
@@ -23,22 +24,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>도서 검색 결과</title>
 </head>
+<!-- 상세보기 버튼 클릭하면 ProductDetail에 productnumber 전달하는 함수. js로 짜여져있다. -->
 <script type="text/javascript">
-function viewDetail(){
+function viewDetail(string productnumber){
 	var form = document.createElement('form');
-	<% 
-	DB.loadConnect(); 
-	String result_j = request.getParameter("search"); //검색 내용 받아옴
-	String isbn_j = DB.getIsbnBySearch(result_j); //검색 결과
-	String productname = DB.getProductNameByIsbn(isbn_j); //
-	%>
 	
 	form.method = 'get';
-	form.action = 'BookDetail.jsp';
+	form.action = 'ProductDetail.jsp';
 	
+	//ProductDetail에 값 전달하기 위한 부분
 	var input1 = document.createElement('input');
-	input1.setAttribute("name", "bname");
-	input1.setAttribute("value", "<%=productname%>" );
+	input1.setAttribute("name", "productnumber");
+	input1.setAttribute("value", productnumber );
 	
 	form.appendChild(input1);
 	document.body.appendChild(form);
@@ -46,15 +43,15 @@ function viewDetail(){
 }
 </script>
 <body>
-	<% DB.loadConnect(); %>
-	<%@include file="LogoAndSearchBar.jsp" %>
+	<% DB.loadConnect(); 
+	String test="testsession";%>
 	<% String result = request.getParameter("search"); %>
 	'<%= result%>'에 대한 검색 결과
-	<% String isbn = DB.getIsbnBySearch(result); %>
+	<% String productnumber = "111"; %>
 	
 	<div class="bookimg">
 	<img style="width:15%; height:15%;" src="<%=""%>"> <!-- DB.getImagePathByIsbn(isbn) -->
-	<div class="upside"><%=DB.getBookNameByIsbn(isbn) %><br><%=DB.getWriterByIsbn(isbn) %><br><%=DB.getPriceByIsbn(isbn) %>원<br><button type="button" onclick="viewDetail()" >상세정보 보기</button></div>
+	<div class="upside"><%=test %><br><%=test %><br><%=test %>원<br><button type="button" onclick="viewDetail(productnumber)" >상세정보 보기</button></div>
 	</div>
 </body>
 </html>

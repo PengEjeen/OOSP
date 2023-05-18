@@ -60,23 +60,23 @@ table,th,td {
 function buy(){
 	var form = document.createElement('form');
 	<% 
-	DB.loadConnect(); 
-	String bname_js = request.getParameter("bname");
-	String isbn_js = DB.getIsbnBySearch(bname_js);
-	String cid = (String)session.getAttribute("userId");
-	String price = DB.getPriceByIsbn(isbn_js);
+	DB.loadConnect();  
+	String prodcutnumber_js = request.getParameter("productnumber"); //productnumber가지고 옴
+	String productname_js = DB.getProductnameByProductnumber("productnumber");		//상품 이름 변수
+	String cid = (String)session.getAttribute("userId"); //주문자 ID
+	String price = DB.getPriceByProductnumber("productnumber");	//가격 변수
 	%>
 	
 	form.method = 'get';
-	form.action = 'BuyAction.jsp';
+	form.action = 'BuyAction.jsp'; 
 	
 	var input1 = document.createElement('input');
 	var input2 = document.createElement('input');
 	var input3 = document.createElement('input');
 	
-	input1.setAttribute("name", "isbn");
-	input1.setAttribute("value", "<%=isbn_js%>" );
-	input2.setAttribute("name", "cid");
+	input1.setAttribute("name", "productnumber"); //isbn -> productnumber
+	input1.setAttribute("value", "<%=prodcutnumber_js%>" ); 
+	input2.setAttribute("name", "cid"); // cid -> cid
 	input2.setAttribute("value", "<%=cid%>" );
 	input3.setAttribute("name", "price");
 	input3.setAttribute("value", "<%=price%>" );
@@ -90,12 +90,13 @@ function buy(){
 </script>
 <body> <!-- 검색창 부분 -->
 <%@include file="LogoAndSearchBar.jsp" %>
-<% String productname = request.getParameter("bname"); %>
+<!-- 상품 상세보기버튼에서 가지고오는 듯 하다. -->
+<% String productnumber = request.getParameter("productnumber"); %>
 
 <!-- productname SearchResult.jsp파일 getSearchByName함수에 있음. -->
 <% DB.loadConnect();
-String isbn = DB.getIsbnByBname(bname);
-float rating = DB.getRateByBname(bname)*20;
+//String isbn = DB.getIsbnByBname(productnumber);
+float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/starcount
 %>
 <div class="productimg">
 <img style="width : 20%; heigth : 20%;"> 
@@ -104,29 +105,29 @@ float rating = DB.getRateByBname(bname)*20;
 <table border="1">
 <tr>
 <td>책 제목</td>
-<td width="300" class="ntd"><%= DB.getBookNameByIsbn(isbn) %></td>
+<td width="300" class="ntd"><%= DB.getProductnameByProductnumber(productnumber) %></td>
 </tr>
 <tr>
 <td>저자</td>
-<td width="300" class="ntd"><%= DB.getWriterByIsbn(isbn) %></td>
+<td width="300" class="ntd"><%= DB.getCompanynameByProductnumber(productnumber) %></td>
 </tr>
 <tr>
 <td>ISBN</td>
-<td width="300" class="ntd"><%= isbn %></td>
+<td width="300" class="ntd"><%= productnumber %></td>
 </tr>
 <tr>
 <td>가격</td>
-<td width="300" class="ntd"><%= DB.getPriceByIsbn(isbn) %></td>
+<td width="300" class="ntd"><%= DB.getPriceByProductnumber(productnumber) %></td>
 </tr>
 <tr>
 <td>분류</td>
-<td width="300" class="ntd"><%= DB.getCategoryByIsbn(isbn) %></td>
+<td width="300" class="ntd"><%= DB.getPriceByProductnumber(productnumber) + " no category now" %></td>
 </tr>
 </table>
 </div>
 <div class="productdetail">
 <b>책 소개</b><br>
-<p style="font-size:12px;"><%= DB.getDetailByIsbn(isbn) %></p>
+<p style="font-size:12px;"><%= DB.getStockByProductnumber(productnumber) %></p>
 </div>
 <div class="review">
 <b>고객 리뷰</b><br>
