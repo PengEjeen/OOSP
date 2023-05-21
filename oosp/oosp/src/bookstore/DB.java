@@ -646,6 +646,10 @@ public class DB {
 				}
 				return sql;
 			}
+			
+			public static Resultset getReview(String productnumber) {
+				String sql = "select customerid,starreview, review, orderdate from buying where productnumber = " + productnumber + ";";
+			}
 }
 
 

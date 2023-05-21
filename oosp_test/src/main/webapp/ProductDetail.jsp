@@ -56,14 +56,15 @@ table,th,td {
 </head>
 <script type="text/javascript">
 
-//왜 여기에 buy 함수가 있나?
+
+//buy 함수
 function buy(){
 	var form = document.createElement('form');
 	<% 
 	DB.loadConnect();  
 	String prodcutnumber_js = request.getParameter("productnumber"); //productnumber가지고 옴
 	String productname_js = DB.getProductnameByProductnumber("productnumber");		//상품 이름 변수
-	String cid = (String)session.getAttribute("userId"); //주문자 ID
+	String userid = (String)session.getAttribute("userId"); //주문자 ID
 	String price = DB.getPriceByProductnumber("productnumber");	//가격 변수
 	%>
 	
@@ -76,8 +77,8 @@ function buy(){
 	
 	input1.setAttribute("name", "productnumber"); //isbn -> productnumber
 	input1.setAttribute("value", "<%=prodcutnumber_js%>" ); 
-	input2.setAttribute("name", "cid"); // cid -> cid
-	input2.setAttribute("value", "<%=cid%>" );
+	input2.setAttribute("name", "customerid"); // cid -> cid
+	input2.setAttribute("value", "<%=userid%>" );
 	input3.setAttribute("name", "price");
 	input3.setAttribute("value", "<%=price%>" );
 	
@@ -91,7 +92,15 @@ function buy(){
 <body> <!-- 검색창 부분 -->
 <%@include file="LogoAndSearchBar.jsp" %>
 <!-- 상품 상세보기버튼에서 가지고오는 듯 하다. -->
-<% String productnumber = request.getParameter("productnumber"); %>
+<% String productnumber = request.getParameter("productnumber"); 
+
+//ReviewWriteAction에 productnumber 보내기 위한 값
+//정말 싫었는데 ReviewWriteAction에 전달해주려면 필요했음... 새로 만들기는 귀찮고 ㅎ..
+//어차피 디테일 페이지 들어올 때마다 바뀌니까 괜찮지 않을까 싶었음.
+session.setAttribute("productnumber", productnumber);
+
+
+%>
 
 <!-- productname SearchResult.jsp파일 getSearchByName함수에 있음. -->
 <% DB.loadConnect();
@@ -104,7 +113,7 @@ float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/star
 <div class="productinfo">
 <table border="1">
 <tr>
-<td>책 제목</td>
+<td>상품 이름</td>
 <td width="300" class="ntd"><%= DB.getProductnameByProductnumber(productnumber) %></td>
 </tr>
 <tr>
@@ -112,7 +121,7 @@ float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/star
 <td width="300" class="ntd"><%= DB.getCompanynameByProductnumber(productnumber) %></td>
 </tr>
 <tr>
-<td>ISBN</td>
+<td>상품번호</td>
 <td width="300" class="ntd"><%= productnumber %></td>
 </tr>
 <tr>
@@ -126,10 +135,13 @@ float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/star
 </table>
 </div>
 <div class="productdetail">
-<b>책 소개</b><br>
+<b>재고</b><br>
 <p style="font-size:12px;"><%= DB.getStockByProductnumber(productnumber) %></p>
 </div>
+<!-- 댓글 작성부분 -->
+
 <div class="review">
+<%@include file="ReviewWrite.jsp" %>
 <b>고객 리뷰</b><br>
 <%@include file="ReviewTable.jsp" %>
 </div>

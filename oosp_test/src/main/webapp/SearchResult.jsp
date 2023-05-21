@@ -26,17 +26,17 @@
 </head>
 <!-- 상세보기 버튼 클릭하면 ProductDetail에 productnumber 전달하는 함수. js로 짜여져있다. -->
 <script type="text/javascript">
-function viewDetail(string productnumber){
+function viewDetail(productnumber) {
 	var form = document.createElement('form');
-	
+
 	form.method = 'get';
 	form.action = 'ProductDetail.jsp';
-	
-	//ProductDetail에 값 전달하기 위한 부분
+
+	// ProductDetail에 값 전달하기 위한 부분
 	var input1 = document.createElement('input');
 	input1.setAttribute("name", "productnumber");
-	input1.setAttribute("value", productnumber );
-	
+	input1.setAttribute("value", productnumber);
+
 	form.appendChild(input1);
 	document.body.appendChild(form);
 	form.submit();
@@ -44,14 +44,15 @@ function viewDetail(string productnumber){
 </script>
 <body>
 	<% DB.loadConnect(); 
-	String test="testsession";%>
+	String test="testsession"; 
+	String productnumber = "111";%>
+	<%@include file="LogoAndSearchBar.jsp" %>
 	<% String result = request.getParameter("search"); %>
 	'<%= result%>'에 대한 검색 결과
-	<% String productnumber = "111"; %>
 	
 	<div class="bookimg">
-	<img style="width:15%; height:15%;" src="<%=""%>"> <!-- DB.getImagePathByIsbn(isbn) -->
-	<div class="upside"><%=test %><br><%=test %><br><%=test %>원<br><button type="button" onclick="viewDetail(productnumber)" >상세정보 보기</button></div>
+	<img style="width:15%; height:15%;" src="<%=""%>">
+	<div class="upside"><%=test %><br><%=test %><br><%=test %>원<br><button type="button" onclick="viewDetail('<%= productnumber %>')">상세정보 보기</button></div>
 	</div>
 </body>
 </html>

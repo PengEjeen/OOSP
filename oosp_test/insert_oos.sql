@@ -7,6 +7,7 @@ insert into customer values('kyr1234', '김유리', '경기도 안산시', '010-
 insert into customer values('ksb1234', '김수빈', '경기도 시흥시', '010-2345-5675', 'ksb1234', 'ksb@gmail.com', 500000, 10);
 
 insert into buying values(1, '2023-04-28', 50000, 111,'kkh1234', 0, '배송준비중', '없음', 5);
+insert into buying values(2, '2023-04-26', 50000, 111,'kcs1234', 0, '배송중', '없음', 5);
 insert into buying values(2, '2023-04-26', 60000, 112,'kcs1234', 0, '배송중', '없음', 5);
 insert into buying values(3, '2023-04-24', 70000, 113,'kjg1234', 0, '배송완료', '별로에요', 1);
 insert into buying values(4, '2023-04-28', 80000, 114,'kyr1234', 0, '배송준비중', '없음', 5);
