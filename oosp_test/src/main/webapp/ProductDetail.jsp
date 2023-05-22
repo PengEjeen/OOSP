@@ -58,35 +58,20 @@ table,th,td {
 
 
 //buy 함수
-function buy(){
-	var form = document.createElement('form');
-	<% 
-	DB.loadConnect();  
-	String prodcutnumber_js = request.getParameter("productnumber"); //productnumber가지고 옴
-	String productname_js = DB.getProductnameByProductnumber("productnumber");		//상품 이름 변수
-	String userid = (String)session.getAttribute("userId"); //주문자 ID
-	String price = DB.getPriceByProductnumber("productnumber");	//가격 변수
-	%>
-	
-	form.method = 'get';
-	form.action = 'BuyAction.jsp'; 
-	
-	var input1 = document.createElement('input');
-	var input2 = document.createElement('input');
-	var input3 = document.createElement('input');
-	
-	input1.setAttribute("name", "productnumber"); //isbn -> productnumber
-	input1.setAttribute("value", "<%=prodcutnumber_js%>" ); 
-	input2.setAttribute("name", "customerid"); // cid -> cid
-	input2.setAttribute("value", "<%=userid%>" );
-	input3.setAttribute("name", "price");
-	input3.setAttribute("value", "<%=price%>" );
-	
-	form.appendChild(input1);
-	form.appendChild(input2);
-	form.appendChild(input3);
-	document.body.appendChild(form);
-	form.submit();
+function buy() {
+  <% 
+    DB.loadConnect();  
+    String productnumber_js = request.getParameter("productnumber");
+    String userid = (String) session.getAttribute("userId");
+    String price = DB.getPriceByProductnumber(productnumber_js);
+  %>
+  
+  var productnumber = "<%= productnumber_js %>";
+  var customerid = "<%= userid %>";
+  var price = "<%= price %>";
+  
+  var url = "BuyAction.jsp?productnumber=" + encodeURIComponent(productnumber) + "&customerid=" + encodeURIComponent(customerid) + "&price=" + encodeURIComponent(price);
+  window.location.href = url;
 }
 </script>
 <body> <!-- 검색창 부분 -->
@@ -117,7 +102,7 @@ float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/star
 <td width="300" class="ntd"><%= DB.getProductnameByProductnumber(productnumber) %></td>
 </tr>
 <tr>
-<td>저자</td>
+<td>회사명</td>
 <td width="300" class="ntd"><%= DB.getCompanynameByProductnumber(productnumber) %></td>
 </tr>
 <tr>
