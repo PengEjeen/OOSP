@@ -7,6 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상품 상세정보</title>
 <style>
+.btn{
+	width: 100px;
+	height: 30px;
+	font-size: 20px; 
+}
 .productimg{
 	position : relative;
 	top : 10px;
@@ -30,6 +35,7 @@ table,th,td {
 	border-right:0px;
 	border-collapse:collapse;
 	padding-left:5px;
+	font-size:20px;
 }
 .ntd{
 	padding-left:30px;
@@ -40,14 +46,14 @@ table,th,td {
 	left : 60px;
 }
 .review{
-	position : absolute;
-	top : 400px;
+	position : relative;
+	top : 300px;
 	left : 400px;
 }
 .buy{
-	position : absolute;
+	position : relative;
 	top : 200px;
-	left : 800px;
+	left : 400px;
 }
 .star-rating { width:205px; position:relative; top:10px;}
 .star-rating,.star-rating span { display:inline-block; height:39px; overflow:hidden; background:url(./img/star.png)no-repeat; }
@@ -86,7 +92,7 @@ session.setAttribute("productnumber", productnumber);
 
 
 %>
-
+<hr class="one" width="100%">
 <!-- productname SearchResult.jsp파일 getSearchByName함수에 있음. -->
 <% DB.loadConnect();
 //String isbn = DB.getIsbnByBname(productnumber);
@@ -117,27 +123,30 @@ float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/star
 <td>분류</td>
 <td width="300" class="ntd"><%= DB.getPriceByProductnumber(productnumber) + " no category now" %></td>
 </tr>
+<tr>
+<td>재고</td>
+<td width="300" class="ntd"><%= DB.getStockByProductnumber(productnumber) %></td>
+</tr>
 </table>
 </div>
-<div class="productdetail">
-<b>재고</b><br>
-<p style="font-size:12px;"><%= DB.getStockByProductnumber(productnumber) %></p>
-</div>
-<!-- 댓글 작성부분 -->
 
+<!-- 구매 -->
+<div class="buy">
+<button type="button" onclick="buy()" class='btn'>구매</button>
+</div>
+
+<!-- 댓글 작성부분 -->
 <div class="review">
 <%@include file="ReviewWrite.jsp" %>
 <b>고객 리뷰</b><br>
 <%@include file="ReviewTable.jsp" %>
 </div>
+
 <div class="productrating">
 평점
 <span class='star-rating'>
 <span style ="width:<%= rating %>%"></span>
 </span>
-</div>
-<div class="buy">
-<button type="button" onclick="buy()">구매</button>
 </div>
 </body>
 </html>
