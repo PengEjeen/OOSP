@@ -148,6 +148,8 @@ float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/star
 <!-- 구매 -->
 <div class="buy">
 <button type="button" onclick="buy()" class='btn'>구매</button>
+
+<!-- 장바구니 부분 -->
 <button type="button" onclick="productlist_add()" class='btn'>장바구니</button>
 </div>
 

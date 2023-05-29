@@ -43,6 +43,11 @@ left:0px;
 }
 </style>
 </head>
+<script type="text/javascript">
+    function goToPage(pageUrl) {
+        window.location.href = pageUrl;
+    }
+</script>
 <body>
 <!-- 나인문고 로고 이미지 출력부분 -->
 <body>
@@ -55,9 +60,10 @@ function LoadMain(){
 <!--  검색창 출력부분 액션 미입력 -->
 <div class=search><form action=SearchResult.jsp>
 <input type="text" placeholder="검색어를 입력하세요" id="searchinput" name="search" autocomplete="off">
-<button type="submit" class="button" id="searchimg"><img src="./img/search.png"></button>
-</form></div>
-<div>
 
-</div>
+<!-- 장바구니 test용 버튼 -->
+<button type="submit" class="button" id="searchimg"><img src="./img/search.png"></button> <button type="button" onclick="goToPage('WishList.jsp')">저페이지로 가기</button>
+</form></div>
+
+
 <br><br><br><br>

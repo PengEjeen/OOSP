@@ -288,9 +288,4 @@ public class DB {
 				}
 			}
 			
-			public static void main(String[] args) {
-				loadConnect();
-				getReview("111");
-			}
-			
 }
