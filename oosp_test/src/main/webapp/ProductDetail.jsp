@@ -1,6 +1,7 @@
 <%@page import="oosp.DB"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -79,6 +80,20 @@ function buy() {
   var url = "BuyAction.jsp?productnumber=" + encodeURIComponent(productnumber) + "&customerid=" + encodeURIComponent(customerid) + "&price=" + encodeURIComponent(price);
   window.location.href = url;
 }
+
+function productlist_add() {
+	<%
+	DB.loadConnect();
+	String productnumber_add = request.getParameter("productnumber");
+    ArrayList<String> productlist = (ArrayList<String>) (session.getAttribute("productlist"));
+	 if (session.getAttribute("productlist") == null) {
+         productlist = new ArrayList<String>();
+     }
+     productlist.add(productnumber_add);
+     session.setAttribute("productlist", productlist);
+	%>
+	
+}
 </script>
 <body> <!-- 검색창 부분 -->
 <%@include file="LogoAndSearchBar.jsp" %>
@@ -133,6 +148,7 @@ float rating = DB.getRateByProductnumber(productnumber); //rate = totalstar/star
 <!-- 구매 -->
 <div class="buy">
 <button type="button" onclick="buy()" class='btn'>구매</button>
+<button type="button" onclick="productlist_add()" class='btn'>장바구니</button>
 </div>
 
 <!-- 댓글 작성부분 -->
